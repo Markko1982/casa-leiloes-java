@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Adm
@@ -148,8 +150,14 @@ public class cadastroVIEW extends javax.swing.JFrame {
         produto.setValor(Integer.parseInt(valor));
         produto.setStatus(status);
         
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+    ProdutosDAO produtodao = new ProdutosDAO();
+boolean cadastrou = produtodao.cadastrarProduto(produto);
+
+if (cadastrou) {
+    JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+} else {
+    JOptionPane.showMessageDialog(null, "Não foi possível cadastrar o produto.");
+}
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
