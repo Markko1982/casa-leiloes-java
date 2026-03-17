@@ -75,7 +75,56 @@ public boolean cadastrarProduto(ProdutosDTO produto){
 
     return listagem;
 }
+  
+  public void venderProduto(int id) {
+
+    String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+
+    conn = new conectaDAO().connectDB();
+
+    try {
+        prep = conn.prepareStatement(sql);
+        prep.setInt(1, id);
+        prep.executeUpdate();
+
+        prep.close();
+        conn.close();
+
+    } catch (Exception erro) {
+        JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + erro.getMessage());
+    }
+}
     
+  public ArrayList<ProdutosDTO> listarProdutosVendidos(){
+
+    ArrayList<ProdutosDTO> vendidos = new ArrayList<>();
+    String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+    conn = new conectaDAO().connectDB();
+
+    try {
+        prep = conn.prepareStatement(sql);
+        resultset = prep.executeQuery();
+
+        while (resultset.next()) {
+            ProdutosDTO produto = new ProdutosDTO();
+
+            produto.setId(resultset.getInt("id"));
+            produto.setNome(resultset.getString("nome"));
+            produto.setValor(resultset.getInt("valor"));
+            produto.setStatus(resultset.getString("status"));
+
+            vendidos.add(produto);
+        }
+
+        prep.close();
+        conn.close();
+
+    } catch (Exception erro) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar produtos vendidos: " + erro.getMessage());
+    }
+
+    return vendidos;
+}
     
     
         
